@@ -7,3 +7,11 @@ declare interface TabIconProps {
   name: string;
   focused: boolean;
 }
+
+declare interface CustomButtonProps {
+  title: string;
+  handlePress: () => void;
+  containerStyles?: string;
+  textStyles?: string;
+  isLoading?: boolean;
+}

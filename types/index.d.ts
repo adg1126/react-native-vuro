@@ -15,3 +15,12 @@ declare interface CustomButtonProps {
   textStyles?: string;
   isLoading?: boolean;
 }
+
+declare interface FormFieldProps {
+  title: string;
+  placeholder: string;
+  value: string;
+  handleChangeText: any;
+  otherStyles?: string;
+  keyboardType?: string;
+}

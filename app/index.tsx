@@ -1,4 +1,5 @@
 import React from 'react';
+import 'react-native-url-polyfill/auto';
 
 import { Redirect, router } from 'expo-router';
 

@@ -5,7 +5,7 @@ import 'react-native-reanimated';
 
 import { useColorScheme } from '@/hooks/useColorScheme';
 
-import { Slot } from 'expo-router';
+import { Slot, Stack } from 'expo-router';
 import {
   DarkTheme,
   DefaultTheme,
@@ -41,7 +41,20 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Slot />
+      <Stack>
+        <Stack.Screen
+          name='index'
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name='(auth)'
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name='(tabs)'
+          options={{ headerShown: false }}
+        />
+      </Stack>
     </ThemeProvider>
   );
 }

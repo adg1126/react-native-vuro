@@ -24,3 +24,28 @@ declare interface FormFieldProps {
   otherStyles?: string;
   keyboardType?: string;
 }
+
+declare interface SigninProps {
+  email: string;
+  password: string;
+}
+
+declare interface SignupProps {
+  email: string;
+  password: string;
+  username: string;
+}
+
+declare type User = {
+  $collectionId: string;
+  $createdAt: string;
+  $databaseId: string;
+  $id: string;
+  $permissions: string[];
+  $tenant: string;
+  $updatedAt: string;
+  accountId: string;
+  avatar: string;
+  email: string;
+  username: string;
+};

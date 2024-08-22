@@ -1,11 +1,11 @@
-import { View, Text, ScrollView, Image } from 'react-native';
+import { View, Text, ScrollView, Image, Alert } from 'react-native';
 import React, { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import images from '@/constants/images';
 
 import FormField from '@/components/FormField';
 import CustomButton from '@/components/CustomButton';
-import { Link } from 'expo-router';
+import { Link, router } from 'expo-router';
 import { createUser } from '@/lib/appwrite';
 
 export default function SignUp() {
@@ -16,8 +16,23 @@ export default function SignUp() {
     }),
     [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSignup = () => {
-    createUser();
+  const handleSignup = async () => {
+    const { username, email, password } = form;
+
+    if (form.username === '' || form.email === '' || form.password === '') {
+      Alert.alert('Error', 'Please fill in all fields');
+    }
+
+    setIsSubmitting(true);
+    try {
+      const res = await createUser({ username, email, password });
+
+      router.replace('/home');
+    } catch (err: any) {
+      Alert.alert('Error', err.message);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -33,7 +48,7 @@ export default function SignUp() {
         </View>
 
         <Text className='text-2xl font-semibold text-white font-psemibold'>
-          Sign up to Aora
+          Sign up to Vuro
         </Text>
 
         <View className='w-full flex flex-col gap-y-4'>

@@ -11,6 +11,7 @@ import {
   DefaultTheme,
   ThemeProvider,
 } from '@react-navigation/native';
+import GlobalProvider from '@/context/GlobalProvider';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -40,21 +41,23 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen
-          name='index'
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name='(auth)'
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name='(tabs)'
-          options={{ headerShown: false }}
-        />
-      </Stack>
-    </ThemeProvider>
+    <GlobalProvider>
+      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+        <Stack>
+          <Stack.Screen
+            name='index'
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name='(auth)'
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name='(tabs)'
+            options={{ headerShown: false }}
+          />
+        </Stack>
+      </ThemeProvider>
+    </GlobalProvider>
   );
 }

@@ -75,3 +75,15 @@ declare type VideoDoc = {
   video: string;
   users: User;
 };
+
+declare interface TrendingItemProps {
+  activeItemKey: string;
+  item: VideoDoc;
+}
+
+declare interface ViewableItemProps {
+  index: number | null;
+  isViewable: boolean;
+  key: string;
+  item: VideoDoc;
+}

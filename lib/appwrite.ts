@@ -108,3 +108,17 @@ export async function getAllVideos() {
     throw new Error(err);
   }
 }
+
+export async function getLatestVideos() {
+  try {
+    const videos = await databases.listDocuments(
+      appwriteConfig.databaseId!,
+      appwriteConfig.videoCollectionId!,
+      [Query.orderDesc('$createdAt'), Query.limit(7)]
+    );
+
+    return videos.documents;
+  } catch (err: any) {
+    throw new Error(err);
+  }
+}

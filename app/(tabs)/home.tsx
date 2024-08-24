@@ -5,7 +5,7 @@ import images from '@/constants/images';
 import SearchInput from '@/components/SearchInput';
 import Trending from '@/components/Trending';
 import EmptyState from '@/components/EmptyState';
-import { getAllVideos } from '@/lib/appwrite';
+import { getAllVideos, getLatestVideos } from '@/lib/appwrite';
 import { useAppwrite } from '@/hooks/useAppwrite';
 import VideoCard from '@/components/VideoCard';
 
@@ -13,7 +13,8 @@ export default function Home() {
   const [searchTerm, setSearchTerm] = useState<string>(''),
     [refresing, setRefresing] = useState<boolean>(false);
 
-  const { data: videos, refetch } = useAppwrite(getAllVideos);
+  const { data: videos, refetch } = useAppwrite(getAllVideos),
+    { data: latestVideos } = useAppwrite(getLatestVideos);
 
   const handleChangeText = (e: string) => {};
 
@@ -59,7 +60,7 @@ export default function Home() {
                 Latest Videos
               </Text>
 
-              <Trending posts={[{ id: 1 }, { id: 2 }, { id: 3 }]} />
+              <Trending videos={latestVideos} />
             </View>
           </View>
         )}

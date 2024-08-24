@@ -95,3 +95,16 @@ export async function getCurrentUser() {
     throw new Error(err);
   }
 }
+
+export async function getAllVideos() {
+  try {
+    const videos = await databases.listDocuments(
+      appwriteConfig.databaseId!,
+      appwriteConfig.videoCollectionId!
+    );
+
+    return videos.documents;
+  } catch (err: any) {
+    throw new Error(err);
+  }
+}

@@ -20,7 +20,7 @@ declare interface FormFieldProps {
   title: string;
   placeholder: string;
   value: string;
-  handleChangeText: any;
+  handleChangeText: (e) => void;
   otherStyles?: string;
   keyboardType?: string;
 }
@@ -41,11 +41,37 @@ declare type User = {
   $createdAt: string;
   $databaseId: string;
   $id: string;
-  $permissions: string[];
+  $permissions: string[] | [];
   $tenant: string;
   $updatedAt: string;
   accountId: string;
   avatar: string;
   email: string;
   username: string;
+};
+
+declare interface SearchInputProps {
+  value: string;
+  handleChangeText: (e: string) => void;
+  placeholder: string;
+}
+
+declare interface EmptyStateProps {
+  title: string;
+  subtitle: string;
+}
+
+declare type VideoDoc = {
+  $collectionId: string;
+  $createdAt: string;
+  $databaseId: string;
+  $id: string;
+  $permissions: string[] | [];
+  $tenant: string;
+  $updatedAt: string;
+  prompt: string;
+  thumbnail: string;
+  title: string;
+  video: string;
+  users: User;
 };

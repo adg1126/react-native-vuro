@@ -10,9 +10,9 @@ import { Alert } from 'react-native';
 
 const initialState = {
   isSignedIn: false,
-  setIsSignedIn: () => {},
+  handleSetIsSignedIn: (isSignedIn: boolean) => {},
   user: null,
-  setUser: () => {},
+  handleSetUser: (user: User | null) => {},
   isLoading: true,
 };
 
@@ -28,11 +28,11 @@ const GlobalProvider = ({ children }: { children: ReactNode }) => {
     getCurrentUser()
       .then((res) => {
         if (res) {
-          setIsSignedIn(true);
-          setUser(res);
+          handleSetIsSignedIn(true);
+          handleSetUser(res);
         } else {
-          setIsSignedIn(false);
-          setUser(null);
+          handleSetIsSignedIn(false);
+          handleSetUser(null);
         }
       })
       .catch((err) => {
@@ -41,9 +41,23 @@ const GlobalProvider = ({ children }: { children: ReactNode }) => {
       .finally(() => setIsLoading(false));
   });
 
+  const handleSetUser = (user: User | null) => {
+    setUser(user);
+  };
+
+  const handleSetIsSignedIn = (isSignedIn: boolean) => {
+    setIsSignedIn(isSignedIn);
+  };
+
   return (
     <GlobalContext.Provider
-      value={{ isSignedIn, setIsSignedIn, user, setUser, isLoading }}
+      value={{
+        isSignedIn,
+        handleSetIsSignedIn,
+        user,
+        handleSetUser,
+        isLoading,
+      }}
     >
       {children}
     </GlobalContext.Provider>

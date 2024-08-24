@@ -6,7 +6,9 @@ import images from '@/constants/images';
 import FormField from '@/components/FormField';
 import CustomButton from '@/components/CustomButton';
 import { Link, router } from 'expo-router';
-import { createUser } from '@/lib/appwrite';
+import { createUser, getCurrentUser } from '@/lib/appwrite';
+
+import { useGlobalContext } from '@/context/GlobalProvider';
 
 export default function SignUp() {
   const [form, setForm] = useState({
@@ -15,6 +17,7 @@ export default function SignUp() {
       password: '',
     }),
     [isSubmitting, setIsSubmitting] = useState(false);
+  const { handleSetIsSignedIn, handleSetUser } = useGlobalContext();
 
   const handleSignup = async () => {
     const { username, email, password } = form;
@@ -25,8 +28,12 @@ export default function SignUp() {
 
     setIsSubmitting(true);
     try {
-      const res = await createUser({ username, email, password });
+      await createUser({ username, email, password });
+      const res = await getCurrentUser();
+      handleSetUser(res);
+      handleSetIsSignedIn(true);
 
+      Alert.alert('Success', 'Successfully created your account');
       router.replace('/home');
     } catch (err: any) {
       Alert.alert('Error', err.message);

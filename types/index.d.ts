@@ -79,6 +79,8 @@ declare type VideoDoc = {
 declare interface TrendingItemProps {
   activeItemKey: string;
   item: VideoDoc;
+  index: number;
+  arrLength: number;
 }
 
 declare interface ViewableItemProps {
@@ -86,4 +88,11 @@ declare interface ViewableItemProps {
   isViewable: boolean;
   key: string;
   item: VideoDoc;
+}
+
+declare interface VideoPlayerProps {
+  videoUrl: string;
+  thumbnail: string;
+  videoPlayerStyles?: string;
+  thumbnailStyles?: string;
 }

@@ -1,8 +1,8 @@
 import { View, Text, Image, TouchableOpacity } from 'react-native';
-import React, { useState } from 'react';
+import React from 'react';
 import icons from '@/constants/icons';
 
-import { Video, ResizeMode } from 'expo-av';
+import VideoPlayer from './VideoPlayer';
 
 export default function VideoCard({
   video: {
@@ -14,13 +14,6 @@ export default function VideoCard({
 }: {
   video: VideoDoc;
 }) {
-  const [play, setPlay] = useState<boolean>(false);
-
-  const handlePlayVideo = () => {
-    setPlay(true);
-    // play video here
-  };
-
   return (
     <View className='flex flex-col items-center px-4 mb-14'>
       <View className='flex flex-row gap-3 items-start'>
@@ -55,37 +48,14 @@ export default function VideoCard({
         </View>
       </View>
 
-      {play ? (
-        <Video
-          source={{ uri: video }}
-          className='w-full h-60 rounded-xl mt-3'
-          resizeMode={ResizeMode.CONTAIN}
-          useNativeControls
-          shouldPlay
-          onPlaybackStatusUpdate={(status: any) => {
-            if (status.isLoaded) {
-              if (status.didJustFinish) setPlay(false);
-            }
-          }}
+      <View className='w-full h-60 rounded-xl mt-3'>
+        <VideoPlayer
+          videoUrl={video}
+          thumbnail={thumbnail}
+          videoPlayerStyles='rounded-xl mt-3'
+          thumbnailStyles='rounded-xl mt-3'
         />
-      ) : (
-        <TouchableOpacity
-          className='w-full h-60 rounded-xl mt-3 relative justify-center items-center'
-          activeOpacity={0.7}
-          onPress={handlePlayVideo}
-        >
-          <Image
-            source={{ uri: thumbnail }}
-            className='w-full h-full rounded-xl mt-3'
-            resizeMode='cover'
-          />
-          <Image
-            source={icons.play}
-            className='w-12 h-12 absolute'
-            resizeMode='contain'
-          />
-        </TouchableOpacity>
-      )}
+      </View>
     </View>
   );
 }

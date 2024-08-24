@@ -2,16 +2,10 @@ import React, { useState } from 'react';
 
 import * as Animatable from 'react-native-animatable';
 
-import {
-  FlatList,
-  TouchableOpacity,
-  ImageBackground,
-  Image,
-} from 'react-native';
+import { FlatList, View } from 'react-native';
 import EmptyState from './EmptyState';
-import icons from '@/constants/icons';
 
-import { ResizeMode, Video } from 'expo-av';
+import VideoPlayer from './VideoPlayer';
 
 const zoomIn = {
     0: { scale: 0.9, opacity: 1 },
@@ -22,52 +16,26 @@ const zoomIn = {
     1: { scale: 0.9, opacity: 1 },
   };
 
-const TrendingItem = ({ activeItemKey, item }: TrendingItemProps) => {
-  const [play, setPlay] = useState<boolean>(false);
-
-  const handlePlayVideo = () => {
-    setPlay(true);
-    // play video here
-  };
-
+const TrendingItem = ({
+  activeItemKey,
+  item,
+  index,
+  arrLength,
+}: TrendingItemProps) => {
   return (
     <Animatable.View
-      className='mr-5'
+      className={`mr-5 ${index === arrLength - 1 && 'pr-10'}`}
       animation={activeItemKey === item.$id ? zoomIn : zoomOut}
       duration={500}
     >
-      {play ? (
-        <Video
-          source={{ uri: item.video }}
-          className='w-52 h-72 rounded-[35px] mt-3 bg-white/10'
-          resizeMode={ResizeMode.CONTAIN}
-          useNativeControls
-          shouldPlay
-          onPlaybackStatusUpdate={(status: any) => {
-            if (status.isLoaded) {
-              if (status.didJustFinish) setPlay(false);
-            }
-          }}
+      <View className='w-52 h-72 rounded-[35px] flex items-center justify-center'>
+        <VideoPlayer
+          videoUrl={item.video}
+          thumbnail={item.thumbnail}
+          videoPlayerStyles='rounded-[35px] bg-white/10'
+          thumbnailStyles='rounded-[35px] my-5 overflow-hidden shadow-lg shadow-black/40'
         />
-      ) : (
-        <TouchableOpacity
-          className='relative justify-center items-center'
-          activeOpacity={0.7}
-          onPress={handlePlayVideo}
-        >
-          <ImageBackground
-            source={{ uri: item.thumbnail }}
-            className='w-52 h-72 rounded-[35px] my-5 overflow-hidden shadow-lg shadow-black/40'
-            resizeMode='cover'
-          />
-
-          <Image
-            source={icons.play}
-            className='w-12 h-12 absolute'
-            resizeMode='contain'
-          />
-        </TouchableOpacity>
-      )}
+      </View>
     </Animatable.View>
   );
 };
@@ -87,12 +55,15 @@ export default function Trending({ videos }: { videos: any }) {
 
   return (
     <FlatList
+      className='p-8'
       data={videos}
       keyExtractor={(item) => item.$id}
-      renderItem={({ item }) => (
+      renderItem={({ item, index }) => (
         <TrendingItem
           activeItemKey={activeItem}
           item={item}
+          index={index}
+          arrLength={videos.length}
         />
       )}
       onViewableItemsChanged={handleChangeActiveItem}

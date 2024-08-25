@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Image, TouchableOpacity, ImageBackground } from 'react-native';
+import { Image, TouchableOpacity } from 'react-native';
 import { Video, ResizeMode } from 'expo-av';
 
 import icons from '@/constants/icons';

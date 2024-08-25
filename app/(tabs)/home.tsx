@@ -5,7 +5,7 @@ import images from '@/constants/images';
 import SearchInput from '@/components/SearchInput';
 import Trending from '@/components/Trending';
 import EmptyState from '@/components/EmptyState';
-import { getAllVideos, getLatestVideos } from '@/lib/appwrite';
+import { getAllVideos, getCurrentUser, getLatestVideos } from '@/lib/appwrite';
 import { useAppwrite } from '@/hooks/useAppwrite';
 import VideoCard from '@/components/VideoCard';
 
@@ -13,7 +13,8 @@ export default function Home() {
   const [refresing, setRefresing] = useState<boolean>(false);
 
   const { data: videos, refetch } = useAppwrite(getAllVideos),
-    { data: latestVideos } = useAppwrite(getLatestVideos);
+    { data: latestVideos } = useAppwrite(getLatestVideos),
+    { data: user } = useAppwrite(getCurrentUser);
 
   const onRefresh = async () => {
     setRefresing(true);
@@ -34,7 +35,9 @@ export default function Home() {
                 <Text className='font-pmedium text-sm text-gray-100'>
                   Welcome back
                 </Text>
-                <Text className='font-psemibold text-2xl text-white'>User</Text>
+                <Text className='font-psemibold text-2xl text-white'>
+                  {user?.username}
+                </Text>
               </View>
 
               <View className='mt-1.5'>

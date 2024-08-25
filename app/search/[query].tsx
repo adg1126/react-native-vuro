@@ -1,25 +1,23 @@
-import { View, Text, FlatList, Image, RefreshControl } from 'react-native';
-import React, { useState } from 'react';
+import { View, Text, FlatList, Image } from 'react-native';
+import React, { useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import images from '@/constants/images';
 import SearchInput from '@/components/SearchInput';
-import Trending from '@/components/Trending';
 import EmptyState from '@/components/EmptyState';
-import { getAllVideos, getLatestVideos } from '@/lib/appwrite';
-import { useAppwrite } from '@/hooks/useAppwrite';
 import VideoCard from '@/components/VideoCard';
+import { useLocalSearchParams } from 'expo-router';
 
-export default function Home() {
-  const [refresing, setRefresing] = useState<boolean>(false);
+import { getVideo } from '@/lib/appwrite';
+import { useAppwrite } from '@/hooks/useAppwrite';
 
-  const { data: videos, refetch } = useAppwrite(getAllVideos),
-    { data: latestVideos } = useAppwrite(getLatestVideos);
+export default function Search() {
+  const { query } = useLocalSearchParams();
 
-  const onRefresh = async () => {
-    setRefresing(true);
-    await refetch();
-    setRefresing(false);
-  };
+  const { data: videos, refetch } = useAppwrite(() => getVideo(`${query}`));
+
+  useEffect(() => {
+    refetch();
+  }, [query]);
 
   return (
     <SafeAreaView className='bg-primary'>
@@ -32,9 +30,11 @@ export default function Home() {
             <View className='flex justify-between items-start flex-row mb-6'>
               <View>
                 <Text className='font-pmedium text-sm text-gray-100'>
-                  Welcome back
+                  Search Results
                 </Text>
-                <Text className='font-psemibold text-2xl text-white'>User</Text>
+                <Text className='font-psemibold text-2xl text-white'>
+                  {query}
+                </Text>
               </View>
 
               <View className='mt-1.5'>
@@ -46,15 +46,7 @@ export default function Home() {
               </View>
             </View>
 
-            <SearchInput />
-
-            <View className='w-full flex-1 pt-5 pb-8'>
-              <Text className='text-lg font-pregular text-gray-100 mb-3'>
-                Latest Videos
-              </Text>
-
-              <Trending videos={latestVideos} />
-            </View>
+            <SearchInput initialQuery={`${query}`} />
           </View>
         )}
         ListEmptyComponent={() => (
@@ -63,12 +55,6 @@ export default function Home() {
             subtitle='Be the first one to upload a video'
           />
         )}
-        refreshControl={
-          <RefreshControl
-            refreshing={refresing}
-            onRefresh={onRefresh}
-          />
-        }
       />
     </SafeAreaView>
   );

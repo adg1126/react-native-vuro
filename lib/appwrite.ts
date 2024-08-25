@@ -122,3 +122,17 @@ export async function getLatestVideos() {
     throw new Error(err);
   }
 }
+
+export async function getVideo(query: string) {
+  try {
+    const videos = await databases.listDocuments(
+      appwriteConfig.databaseId!,
+      appwriteConfig.videoCollectionId!,
+      [Query.search('title', query)]
+    );
+
+    return videos.documents;
+  } catch (err: any) {
+    throw new Error(err);
+  }
+}

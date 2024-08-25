@@ -50,12 +50,6 @@ declare type User = {
   username: string;
 };
 
-declare interface SearchInputProps {
-  value: string;
-  handleChangeText: (e: string) => void;
-  placeholder: string;
-}
-
 declare interface EmptyStateProps {
   title: string;
   subtitle: string;
@@ -95,4 +89,8 @@ declare interface VideoPlayerProps {
   thumbnail: string;
   videoPlayerStyles?: string;
   thumbnailStyles?: string;
+}
+
+declare interface SearchInputProps {
+  initialQuery: string;
 }

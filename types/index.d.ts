@@ -94,3 +94,10 @@ declare interface VideoPlayerProps {
 declare interface SearchInputProps {
   initialQuery: string;
 }
+
+declare interface InfoBoxProps {
+  title: string;
+  subtitle?: string;
+  containerStyles?: string;
+  titleStyles?: string;
+}

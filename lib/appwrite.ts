@@ -136,3 +136,27 @@ export async function getVideo(query: string) {
     throw new Error(err);
   }
 }
+
+export async function getUserVideos(userId: string) {
+  try {
+    const videos = await databases.listDocuments(
+      appwriteConfig.databaseId!,
+      appwriteConfig.videoCollectionId!,
+      [Query.equal('users', userId)]
+    );
+
+    return videos.documents;
+  } catch (err: any) {
+    throw new Error(err);
+  }
+}
+
+export async function signOut() {
+  try {
+    const session = await account.deleteSession('current');
+
+    return session;
+  } catch (err: any) {
+    throw new Error(err);
+  }
+}

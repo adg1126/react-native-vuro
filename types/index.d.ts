@@ -101,3 +101,11 @@ declare interface InfoBoxProps {
   containerStyles?: string;
   titleStyles?: string;
 }
+
+declare type UploadField = {
+  title: string;
+  video: any;
+  thumbnail: any;
+  prompt: string;
+  userId?: string;
+};
